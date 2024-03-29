@@ -2,7 +2,7 @@ package models
 
 import "github.com/gustavoddoki/ManageYourMoney/API/db"
 
-func getTransactionByID(id int64) (transaction Transaction, err error) {
+func GetTransactionByID(id int64) (transaction Transaction, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return
@@ -17,7 +17,7 @@ func getTransactionByID(id int64) (transaction Transaction, err error) {
 	return
 }
 
-func getTransactions() (transactions []Transaction, err error) {
+func GetTransactions() (transactions []Transaction, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return

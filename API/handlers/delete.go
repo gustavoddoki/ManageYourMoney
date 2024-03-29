@@ -9,7 +9,7 @@ import (
 	"github.com/gustavoddoki/ManageYourMoney/API/models"
 )
 
-func HandlerDeleteTransaction(w http.ResponseWriter, r *http.Request) {
+func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		log.Printf("Failed to parse id: %v", err)

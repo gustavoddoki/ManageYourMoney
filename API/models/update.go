@@ -2,7 +2,7 @@ package models
 
 import "github.com/gustavoddoki/ManageYourMoney/API/db"
 
-func Update(id int64, transaction Transaction) (int64, error) {
+func UpdateTransaction(id int64, transaction Transaction) (int64, error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return 0, err

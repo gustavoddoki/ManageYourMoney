@@ -1,95 +1,26 @@
 package main
 
 import (
-	"database/sql"
-	"log"
+	"fmt"
 	"net/http"
-	"os"
 
-	"github.com/gin-gonic/gin"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/go-chi/chi/v5"
+	"github.com/gustavoddoki/ManageYourMoney/API/configs"
+	"github.com/gustavoddoki/ManageYourMoney/API/handlers"
 )
 
-// Transaction represents a financial transaction, either an expense or an income
-type Transaction struct {
-	ID           string `json:"id"`
-	Type         string `json:"type"`
-	Name         string `json:"name"`
-	Category     string `json:"category"`
-	Description  string `json:"description"`
-	Amount       string `json:"amount"`
-	Date         string `json:"date"`
-	RegistryTime string `json:"registryTime"`
-}
-
-// Transaction is a slice of Transsaction
-type Transactions []Transaction
-
-// Create a new database if not exists
-func CreateDatabase() {
-	db, err := sql.Open("sqlite3", "./finances.db")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	query := "CREATE TABLE IF NOT EXISTS transactions (id INTEGER PRIMARY KEY, type VARCHAR, name VARCHAR, description TEXT, amount REAL, category VARCHAR, date DATE, registry_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
-	statement, err := db.Prepare(query)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = statement.Exec()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func asfasdfsadf(c *gin.Context) {
-
-	db, err := sql.Open("sqlite3", "./finances.db")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open the database"})
-		return
-	}
-	defer db.Close()
-
-	query := "SELECT * FROM transactions"
-	rows, err := db.Query(query)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to execute the query"})
-		return
-	}
-	defer rows.Close()
-
-	transactions := []Transaction{}
-	for rows.Next() {
-		transaction := Transaction{}
-		err = rows.Scan(&transaction.ID, &transaction.Date, &transaction.Description, &transaction.Amount, &transaction.Category)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to scan the row"})
-			return
-		}
-
-		transactions = append(transactions, transaction)
-	}
-
-	if err := rows.Err(); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve the rows"})
-		return
-	}
-
-	c.JSON(http.StatusOK, transactions)
-}
-
 func main() {
+	err := configs.Load()
+	if err != nil {
+		panic(err)
+	}
 
-	os.Setenv("CGO_ENABLED", "1")
+	r := chi.NewRouter()
+	r.Post("/", handlers.AddTransactionHandler)
+	r.Put("/{id}", handlers.UpdateTransactionHandler)
+	r.Delete("/{id}", handlers.DeleteTransactionHandler)
+	r.Get("/", handlers.GetTransactionHandler)
+	r.Get("/{id}", handlers.GetTransactionByIDHandler)
 
-	CreateDatabase()
-
-	r := gin.Default()
-	r.GET("/transactions", getTransactions)
-	r.Run("localhost:3000")
-
+	http.ListenAndServe(fmt.Sprintf(":%s", configs.GetServerPort()), r)
 }
