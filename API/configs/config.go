@@ -6,19 +6,10 @@ var cfg *config
 
 type config struct {
 	API APIConfig
-	DB  DBConfig
 }
 
 type APIConfig struct {
 	Port string
-}
-
-type DBConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Pass     string
-	Database string
 }
 
 func init() {
@@ -41,19 +32,8 @@ func Load() error {
 	cfg.API = APIConfig{
 		Port: viper.GetString("api.port"),
 	}
-	cfg.DB = DBConfig{
-		Host:     viper.GetString("database.host"),
-		Port:     viper.GetString("database.port"),
-		User:     viper.GetString("database.user"),
-		Pass:     viper.GetString("database.pass"),
-		Database: viper.GetString("database.name"),
-	}
 
 	return nil
-}
-
-func GetDB() DBConfig {
-	return cfg.DB
 }
 
 func GetServerPort() string {

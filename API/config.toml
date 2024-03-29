@@ -1,9 +1,2 @@
 [api]
 port = "9000"
-
-[database]
-host = "localhost"
-port = ""
-user = ""
-pass = ""
-name = "api_transactions"

@@ -1,6 +1,6 @@
 package models
 
-import "github.com/gustavoddoki/ManageYourMoney/API/db"
+import "github.com/gustavoddoki/MoneyTracker/API/db"
 
 func DeleteTransanction(id int64) (int64, error) {
 	conn, err := db.OpenConnection()
@@ -9,7 +9,7 @@ func DeleteTransanction(id int64) (int64, error) {
 	}
 	defer conn.Close()
 
-	query := "DELETE FROM transactions WHERE id=$1"
+	query := `DELETE FROM transactions WHERE id=$1`
 	res, err := conn.Exec(query, id)
 	if err != nil {
 		return 0, err

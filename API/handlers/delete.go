@@ -5,12 +5,13 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
-	"github.com/gustavoddoki/ManageYourMoney/API/models"
+	"github.com/gustavoddoki/MoneyTracker/API/models"
 )
 
 func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	id, err := strconv.Atoi(strings.Replace(r.URL.Path, "/", "", 1))
 	if err != nil {
 		log.Printf("Failed to parse id: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

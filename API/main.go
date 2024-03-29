@@ -5,11 +5,15 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/gustavoddoki/ManageYourMoney/API/configs"
-	"github.com/gustavoddoki/ManageYourMoney/API/handlers"
+	"github.com/gustavoddoki/MoneyTracker/API/configs"
+	"github.com/gustavoddoki/MoneyTracker/API/db"
+	"github.com/gustavoddoki/MoneyTracker/API/handlers"
 )
 
 func main() {
+
+	db.CreateDatabase()
+
 	err := configs.Load()
 	if err != nil {
 		panic(err)

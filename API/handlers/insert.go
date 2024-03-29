@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gustavoddoki/ManageYourMoney/API/models"
+	"github.com/gustavoddoki/MoneyTracker/API/models"
 )
 
 func AddTransactionHandler(w http.ResponseWriter, r *http.Request) {
