@@ -19,16 +19,14 @@ go mod tidy
 go run main.go
 ```
 4. **Explore the API:**
-   
-Access the API endpoints at `http://localhost:9000`.
 
 - Get all transactions:
 ```
-curl http://localhost:8080/
+curl http://localhost:9000/
 ```
 - Get a transaction by ID:
 ```
-curl http://localhost:8080/{id}
+curl http://localhost:9000/{id}
 ```
 - Insert a transaction:
 ```
@@ -38,8 +36,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "category": "Category of the Expense/Income",
   "description": "Description of the transaction",
   "amount": 100.00,
-  "date": "YYYY-MM-DDT00:00:00Z"
-}' http://localhost:8080/{id}
+  "date": "2024-01-01T00:00:00Z"
+}' http://localhost:9000/{id}
 ```
 - Update a transaction:
 ```
@@ -50,9 +48,9 @@ curl -X PUT -H "Content-Type: application/json" -d '{
   "description": "Description of the transaction",
   "amount": 100.00,
   "date": "YYYY-MM-DDT00:00:00Z"
-}' http://localhost:8080/{id}
+}' http://localhost:9000/{id}
 ```
 - Delete a transaction:
 ```
-curl -X DELETE http://localhost:8080/transactions/{id}
+curl -X DELETE http://localhost:9000/transactions/{id}
 ```
